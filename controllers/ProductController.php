@@ -99,8 +99,21 @@ class ProductController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
+
+            if (Yii::$app->request->post('image_deleted') == 1 && $model->image) {
+                $oldImagePath = Yii::getAlias('@webroot') . '/' . $model->image;
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+                $model->image = null;
+            }
+
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->save() && $model->upload()) {
+
+            if ($model->save()) {
+                if ($model->imageFile) {
+                    $model->upload();
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -109,6 +122,7 @@ class ProductController extends Controller
             'model' => $model,
         ]);
     }
+
 
     /**
      * Deletes an existing Product model.

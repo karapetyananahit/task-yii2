@@ -58,9 +58,15 @@ use dosamigos\ckeditor\CKEditor;
                     'style' => 'margin-top: 10px; border-radius: 8px; border: 1px solid #ddd;' . ($model->isNewRecord ? 'display: none;' : '')
                 ]
             ) ?>
+            <?= Html::hiddenInput('image_deleted', 0, ['id' => 'imageDeleted']) ?>
+
         </div>
-        <?php if (!$model->isNewRecord && $model->image): ?>
-        <?php endif; ?>
+
+        <button type="button" class="btn btn-danger" id="deleteImageBtn"
+                style="<?= (!$model->isNewRecord && $model->image) ? '' : 'display: none;' ?>">
+            Delete Image
+        </button>
+
         <label for="imageFileUpload" class="btn btn-primary">
             Upload New Image
         </label>
@@ -76,8 +82,8 @@ use dosamigos\ckeditor\CKEditor;
 
 
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <div class="form-group d-grid">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success btn-lg']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -99,5 +105,39 @@ $this->registerJs("
             reader.readAsDataURL(file);
         }
     });
+    const imageInput = document.getElementById('imageFileUpload');
+    const previewImg = document.getElementById('previewImg');
+    const deleteBtn = document.getElementById('deleteImageBtn');
+    const imageDeleted = document.getElementById('imageDeleted');
+
+    if (imageInput) {
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+                if (deleteBtn) {
+                    deleteBtn.style.display = 'inline-block';
+                }
+                imageDeleted.value = 0; 
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', function() {
+            previewImg.src = '';
+            previewImg.style.display = 'none';
+            deleteBtn.style.display = 'none';
+            imageDeleted.value = 1;
+        });
+    }
+
 ");
 ?>
