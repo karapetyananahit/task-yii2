@@ -26,7 +26,7 @@ class m250422_072443_create_products_table extends Migration
             'category_id',
             'categories',
             'id',
-            'SET NULL',
+            'CASCADE',
             'CASCADE'
         );
     }

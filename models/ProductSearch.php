@@ -41,13 +41,16 @@ class ProductSearch extends Product
      */
     public function search($params, $formName = null)
     {
-        $query = Product::find();
-
-        // add conditions that should always apply here
+        $query = Product::find()->joinWith('category');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['category_id'] = [
+            'asc' => ['categories.ordering' => SORT_ASC],
+            'desc' => ['categories.ordering' => SORT_DESC],
+        ];
 
         $this->load($params, $formName);
 

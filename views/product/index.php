@@ -29,9 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-//            'id',
             'name',
-            'description:ntext',
+            [
+                'attribute' => 'description',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return empty($model->description) ? '(No description)' : $model->description;
+                },
+            ],
             [
                 'attribute' => 'category_id',
                 'value' => function ($model) {
@@ -51,7 +56,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
 
-//            'image',
+            [
+                'attribute' => 'image',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return $model->image
+                        ? Html::img(Yii::getAlias('@web') . '/' . $model->image, ['width' => '80px', 'style' => 'border-radius: 8px;'])
+                        : '(No image)';
+                },
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Product $model, $key, $index, $column) {

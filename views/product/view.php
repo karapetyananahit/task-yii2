@@ -29,10 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-//            'id',
             'name',
-            'description:ntext',
-            'category_id',
+            [
+                'attribute' => 'description',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return empty($model->description) ? '(No description)' : $model->description;
+                },
+            ],
+            [
+                'attribute' => 'category_id',
+                'value' => function($model) {
+                    return  $model->category->name;
+                },
+            ],
             [
                 'attribute' => 'status',
                 'value' => function($model) {

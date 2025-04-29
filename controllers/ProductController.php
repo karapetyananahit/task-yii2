@@ -100,7 +100,7 @@ class ProductController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->save() && $model->upload()) { // Save the model and upload the image
+            if ($model->save() && $model->upload()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
