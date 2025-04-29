@@ -42,6 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     return $model->category ? $model->category->name : '(not set)';
                 },
+                'filter' => \yii\helpers\ArrayHelper::map(
+                    \app\models\Category::find()->orderBy('name')->all(), 'id', 'name'
+                ),
                 'label' => 'Category',
             ],
 
