@@ -42,21 +42,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     return $model->category ? $model->category->name : '(not set)';
                 },
-                'filter' => \yii\helpers\ArrayHelper::map(
-                    \app\models\Category::find()->orderBy('name')->all(), 'id', 'name'
-                ),
+                'filter' => \app\components\widgets\CategoryFilterWidget::widget([
+                    'name' => 'ProductSearch[category_id]',
+                    'value' => Yii::$app->request->get('ProductSearch')['category_id'] ?? null,
+                ]),
                 'label' => 'Category',
             ],
+
 
             [
                 'attribute' => 'status',
                 'value' => function ($model) {
                     return $model->status == 1 ? 'Active' : 'Inactive';
                 },
-                'filter' => [
-                    1 => 'Active',
-                    0 => 'Inactive',
-                ],
+                'filter' => \app\components\widgets\StatusFilterWidget::widget([
+                    'name' => 'ProductSearch[status]',
+                    'value' => Yii::$app->request->get('ProductSearch')['status'] ?? null,
+                ]),
             ],
 
             [
