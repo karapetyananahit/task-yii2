@@ -5,6 +5,7 @@
 
 use app\assets\AppAsset;
 use app\widgets\Alert;
+use app\widgets\SidebarWidget;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
@@ -29,12 +30,13 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.
 <?php $this->beginBody() ?>
 
 <main id="main" class="d-flex">
-    <aside class="sidebar bg-light">
-        <nav class="nav flex-column">
-            <a href="<?= Url::to(['category/index']) ?>" class="nav-link"><i class="fa-solid fa-folder-open"></i> Categories</a>
-            <a href="<?= Url::to(['product/index']) ?>" class="nav-link"><i class="fa-solid fa-cart-shopping"></i> Products</a>
-        </nav>
-    </aside>
+    <?= SidebarWidget::widget([
+        'items' => [
+            ['label' => 'Categories', 'url' => ['category/index'], 'icon' => 'fa-solid fa-folder-open'],
+            ['label' => 'Products', 'url' => ['product/index'], 'icon' => 'fa-solid fa-cart-shopping'],
+        ]
+    ]) ?>
+
 
     <div class="content flex-grow-1 p-4">
         <?php if (!empty($this->params['breadcrumbs'])): ?>
