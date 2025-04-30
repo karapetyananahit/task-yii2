@@ -1,27 +1,26 @@
 <?php
 
-namespace app\components\widgets;
+namespace app\widgets;
 
+use app\models\Category;
 use yii\base\Widget;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-class StatusFilterWidget extends Widget
+class CategoryFilterWidget extends Widget
 {
-    public $name = 'status';
+    public $name = 'category_id';
     public $value = null;
     public $prompt = 'All';
 
     public function run()
     {
-        $options = [
-            1 => 'Active',
-            0 => 'Inactive',
-        ];
+        $categories = ArrayHelper::map(Category::find()->orderBy('name')->all(), 'id', 'name');
 
         return Html::dropDownList(
             $this->name,
             $this->value,
-            $options,
+            $categories,
             [
                 'class' => 'form-control',
                 'prompt' => $this->prompt,

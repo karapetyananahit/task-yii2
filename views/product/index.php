@@ -1,10 +1,10 @@
 <?php
 
 use app\models\Product;
-use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\ProductSearch $searchModel */
@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     return $model->category ? $model->category->name : '(not set)';
                 },
-                'filter' => \app\components\widgets\CategoryFilterWidget::widget([
+                'filter' => \app\widgets\CategoryFilterWidget::widget([
                     'name' => 'ProductSearch[category_id]',
                     'value' => Yii::$app->request->get('ProductSearch')['category_id'] ?? null,
                 ]),
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     return $model->status == 1 ? 'Active' : 'Inactive';
                 },
-                'filter' => \app\components\widgets\StatusFilterWidget::widget([
+                'filter' => \app\widgets\StatusFilterWidget::widget([
                     'name' => 'ProductSearch[status]',
                     'value' => Yii::$app->request->get('ProductSearch')['status'] ?? null,
                 ]),
